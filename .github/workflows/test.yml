@@ -41,9 +41,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/upload-artifact@v3
-        with:
-          name: test
-          path: test/*
-
+      - uses: actions/download-artifact@v3
       - run: ls -al 
+      - run: ls -al test
+      - run: ls -al docs
