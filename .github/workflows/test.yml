@@ -30,6 +30,17 @@ jobs:
           name: docs
           path: docs/*
 
+      - name: Make ugly naming test files
+        run: |
+          mkdir xyz
+          echo "testing-xzy" > xyz/xyz_file1.md
+          echo "testing-xzy" > xyz/xyz_file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ttt
+          path: xyz/*
+
   test_all:
     runs-on: ubuntu-latest
 
@@ -41,6 +52,8 @@ jobs:
       - run: ls -al 
       - run: ls -al test
       - run: ls -al docs
+      - run: ls -al ttt
+      - run: ls -al xyz
 
   test:
     runs-on: ubuntu-latest
@@ -56,5 +69,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: docs
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: ttt
 
       - run: ls -al
