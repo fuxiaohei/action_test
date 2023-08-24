@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Make some test files
+        run: |
+          mkdir test
+          echo "testing" > test/file1.md
+          echo "testing" > test/file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: test/*
+
+      - name: Make some more test files
+        run: |
+          mkdir docs
+          echo "testing" > docs/file1.md
+          echo "testing" > docs/file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs/*
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test
+          path: test/*
+
+      - run: ls -al 
