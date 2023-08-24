@@ -41,6 +41,18 @@ jobs:
           name: ttt
           path: xyz/*
 
+      - name: Make single test
+        run: |
+          mkdir single
+          echo "testing" > single/single_file1.md
+          echo "testing" > single/single_file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: single
+          path: single/single_file1.md
+
+
   test_all:
     runs-on: ubuntu-latest
 
@@ -49,11 +61,7 @@ jobs:
       
     steps:
       - uses: actions/download-artifact@v3
-      - run: ls -al 
-      - run: ls -al test
-      - run: ls -al docs
-      - run: ls -al ttt
-      - run: ls -al xyz
+      - run: ls -alR
 
   test:
     runs-on: ubuntu-latest
@@ -73,5 +81,9 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ttt
+      
+      - uses: actions/download-artifact@v3
+        with:
+          name: single
 
-      - run: ls -al
+      - run: ls -alR
