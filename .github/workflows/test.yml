@@ -52,13 +52,33 @@ jobs:
           name: single
           path: single/single_file1.md
 
+      - name: Make subdirectory test files
+        run: |
+          mkdir subdir
+          mkdir subdir/subdir2
+          echo "testing" > subdir/subdir_file1.md
+          echo "testing" > subdir/subdir2/subdir_file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: subdir
+          path: subdir/*
+
+      - name: Make same naming test files
+        run: |
+          echo "testingtestingtesting" >> test/test_file2.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test2
+          path: test/*
 
   test_all:
     runs-on: ubuntu-latest
 
     needs:
       - build
-      
+
     steps:
       - uses: actions/download-artifact@v3
       - run: ls -alR
@@ -81,9 +101,17 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: ttt
-      
+
       - uses: actions/download-artifact@v3
         with:
           name: single
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: subdir
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: test2
 
       - run: ls -alR
